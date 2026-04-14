@@ -18,14 +18,14 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
       
-      - name: Fix Gradle Wrapper
-        run: |
-          rm -rf gradle/wrapper/gradle-wrapper.jar
-          wget https://github.com/gradle/gradle/raw/master/gradle/wrapper/gradle-wrapper.jar -P gradle/wrapper/
-          chmod +x gradlew
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+      
+      - name: Make gradlew executable
+        run: chmod +x gradlew || true
       
       - name: Build APK
-        run: ./gradlew assembleRelease --stacktrace
+        run: gradle assembleRelease --stacktrace
       
       - uses: actions/upload-artifact@v4
         with:
